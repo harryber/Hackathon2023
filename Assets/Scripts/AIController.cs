@@ -30,6 +30,7 @@ public class AIController : MonoBehaviour
     public String chatText;
     public String ansText;
     public String wrongAnsText;
+    public playerMovement player;
 
     //public String questionSubject = "Science";
     //public String age = "15";
@@ -93,7 +94,7 @@ public class AIController : MonoBehaviour
             Debug.Log(questionMessage.Content);
 
 
-            okButton.onClick.AddListener(() => RespondQuestion());
+            okButton.onClick.AddListener(() => RespondQuestion(questionSubject));
 
 
 
@@ -169,7 +170,7 @@ public class AIController : MonoBehaviour
 
     }
 
-    private async void RespondQuestion()
+    private async void RespondQuestion(String type)
     {
         ChatMessage responseMessage = new ChatMessage();
         responseMessage.Role = ChatMessageRole.User;
@@ -195,6 +196,26 @@ public class AIController : MonoBehaviour
 
         if (correctMessage.Content == "Yes.")
         {
+            switch (type)
+            {
+                case "Biology":
+                    player.AdjustHealth(player.healAmount);
+                    break;
+                case "Geology":
+                    player.AdjustAmmo(player.ammoAmount);
+                    break;
+                case "Physics":
+                    // remove player.damage number of enemies
+                    break;
+                case "Computer Science":
+                    player.healAmount += 50;
+                    player.ammoAmount += 0.3f;
+                    player.damage += 1;
+                    break;
+                default:
+                    print("Question Malfunction... Loading new question");
+                    break;
+            }
             rightWrongField.text = "Good Job!";
         }
         else

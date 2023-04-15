@@ -3,13 +3,18 @@
 public class playerMovement : MonoBehaviour
 {
     public float health = 1000.0f;
+
+    public float healAmount = 100.0f;
+    public float ammo = 0.0f;
+    public float ammoAmount = 1.0f;
+
+    public float luck = 0.0f;
     public float moveSpeed = 5.0f;
     public float jumpForce = 5.0f;
     public float lookSensitivity = 2.0f;
     public Canvas canvas;
     public GameObject promptCanvas;
     public AIController ai;
-
 
 
     private bool onGround;
@@ -62,6 +67,17 @@ public class playerMovement : MonoBehaviour
         }
     }
 
+    public void AdjustHealth(float amount)
+    {
+        health += amount;
+    }
+
+    public void AdjustAmmo(float amount)
+    {
+        ammo += amount;
+        if (ammo <= 0) ammo = 0;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.name == "MedCollider")
@@ -87,9 +103,14 @@ public class playerMovement : MonoBehaviour
 
         else if (collision.gameObject.name == "DefensesCollider")
         {
+            
             //If the GameObject's name matches the one you suggest, output this message in the console
-            promptCanvas.SetActive(true);
-            ai.StartQuestion("Physics", "15");
+            if (ammo > 0)
+            {
+                promptCanvas.SetActive(true);
+                ai.StartQuestion("Physics", "15");
+            }
+
         }
 
         else if (collision.gameObject.name == "TechCollider")
