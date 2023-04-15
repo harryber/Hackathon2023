@@ -45,7 +45,7 @@ public class AIController : MonoBehaviour
     void Start()
     {
         // API KEY GOES HERE
-        api = new OpenAIAPI("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");
+        api = new OpenAIAPI("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");
         messages = new List<ChatMessage>
         {
             new ChatMessage(ChatMessageRole.System, "You are about to start generating educational questions for users to solve.")
@@ -215,6 +215,7 @@ public class AIController : MonoBehaviour
                     player.AdjustAmmo(player.ammoAmount);
                     break;
                 case "Physics":
+                    player.AdjustAmmo(-1);
                     // remove player.damage number of enemies
                     break;
                 case "Computer Science":
