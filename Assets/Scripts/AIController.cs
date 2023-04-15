@@ -10,7 +10,8 @@ using OpenAI_API.Models;
 
 public class AIController : MonoBehaviour
 {
-    
+    public GameObject manager;
+    private AudioManager audioManager;
     public GameObject promptCanvas;
     public TMP_Text textField;
     public TMP_Text rightWrongField;
@@ -46,11 +47,13 @@ public class AIController : MonoBehaviour
     void Start()
     {
         // API KEY GOES HERE
-        api = new OpenAIAPI("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");
+        api = new OpenAIAPI("");
         messages = new List<ChatMessage>
         {
             new ChatMessage(ChatMessageRole.System, "You are about to start generating educational questions for users to solve.")
         };
+
+        audioManager = manager.GetComponent<AudioManager>();
 
         //A.onClick.AddListener(() => StartQuestion());
     }
@@ -196,6 +199,9 @@ public class AIController : MonoBehaviour
 
         if (correctMessage.Content == "Yes.")
         {
+
+            audioManager.Play("yay");
+
             switch (type)
             {
                 case "Biology":
@@ -210,7 +216,7 @@ public class AIController : MonoBehaviour
                 case "Computer Science":
                     player.healAmount += 50;
                     player.ammoAmount += 0.3f;
-                    player.damage += 1;
+                    //player.damage += 1;       I commented this out because player doesn't have a "damage" attribute
                     break;
                 default:
                     print("Question Malfunction... Loading new question");
@@ -220,6 +226,9 @@ public class AIController : MonoBehaviour
         }
         else
         {
+
+            audioManager.Play("sad");
+
             // spawn an enemy at a random coordinate
             rightWrongField.text = "Incorrect.";
         }
