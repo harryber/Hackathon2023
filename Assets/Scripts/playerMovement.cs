@@ -5,6 +5,8 @@ public class playerMovement : MonoBehaviour
     public float moveSpeed = 5.0f;
     public float jumpForce = 5.0f;
     public float lookSensitivity = 2.0f;
+    public Canvas canvas;
+    public AIController ai;
 
     private bool onGround;
     private Rigidbody rb;
@@ -15,8 +17,9 @@ public class playerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         cameraScript = FindObjectOfType<thirdPersonCamera>();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        Cursor.visible = true;
     }
 
     void Update()
@@ -52,6 +55,16 @@ public class playerMovement : MonoBehaviour
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             onGround = false;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "MedCollider")
+        {
+            //If the GameObject's name matches the one you suggest, output this message in the console
+            canvas.gameObject.SetActive(true);
+            ai.StartQuestion("Biology", "15");
         }
     }
 }

@@ -10,6 +10,7 @@ using OpenAI_API.Models;
 
 public class AIController : MonoBehaviour
 {
+    public Canvas canvas;
     public TMP_Text textField;
     public TMP_Text rightWrongField;
     public TMP_InputField inputField;
@@ -22,13 +23,14 @@ public class AIController : MonoBehaviour
     public TMP_Text Ctext;
     public Button D;
     public TMP_Text Dtext;
-
+    public Timer t;
+    public float timerTime = 60;
     public String chatText;
     public String ansText;
     public String wrongAnsText;
 
-    public String questionSubject = "Science";
-    public String age = "15";
+    //public String questionSubject = "Science";
+    //public String age = "15";
     public String difficulty;
     
 
@@ -41,114 +43,125 @@ public class AIController : MonoBehaviour
     void Start()
     {
         // API KEY GOES HERE
-        api = new OpenAIAPI("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");
+        api = new OpenAIAPI("");
         messages = new List<ChatMessage>
         {
             new ChatMessage(ChatMessageRole.System, "You are about to start generating educational questions for users to solve.")
         };
 
-        
-        A.onClick.AddListener(() => StartQuestion());
+        //A.onClick.AddListener(() => StartQuestion());
 
     }
 
-    private async void StartQuestion()
+    
+
+    public async void StartQuestion(String questionSubject, String age)
     {
-        String initialQuestion = string.Format("Generate a different random {0} question that a {1} year old would know", questionSubject, age);
-
-        // Generate a prompt to send
-        ChatMessage promtMessage = new ChatMessage();
-        promtMessage.Role = ChatMessageRole.User;
-        promtMessage.Content = initialQuestion;
-        messages.Add(promtMessage);
-        Debug.Log(promtMessage.Content);
-
-        // Send the entire chat to OpenAI to get the next message
-        var questionResult = await api.Chat.CreateChatCompletionAsync(new ChatRequest()
+        if (t.ready)
         {
-            Model = Model.ChatGPTTurbo,
-            Temperature = 0.1,
-            MaxTokens = 50,
-            Messages = messages
-        });
+            t.SetTimeRemaining(timerTime); 
+            t.start = true;
+            String initialQuestion = string.Format("Generate a different random {0} question that a {1} year old would know", questionSubject, age);
 
-        // Determine and display the question
-        ChatMessage questionMessage = new ChatMessage();
-        questionMessage.Role = questionResult.Choices[0].Message.Role;
-        questionMessage.Content = questionResult.Choices[0].Message.Content;
-        messages.Add(questionMessage);
-        textField.text = questionMessage.Content;
-        Debug.Log(questionMessage.Content);
+            // Generate a prompt to send
+            ChatMessage promtMessage = new ChatMessage();
+            promtMessage.Role = ChatMessageRole.User;
+            promtMessage.Content = initialQuestion;
+            messages.Add(promtMessage);
+            Debug.Log(promtMessage.Content);
 
-
-        okButton.onClick.AddListener(() => RespondQuestion());
-
-        
-
-        /*
-        // Get the response message
-        ChatMessage responseMessage = new ChatMessage();
-        responseMessage.Role = chatResult.Choices[0].Message.Role;
-        responseMessage.Content = chatResult.Choices[0].Message.Content;
-        Debug.Log(string.Format("{0}: {1}", responseMessage.Role, responseMessage.Content));
-        String[] promptAndAnswers = responseMessage.Content.Split("|");
-        String[] answers = promptAndAnswers[1].Split("\n");
-        for (int i = 0; i < answers.Length; i++)
-        {
-            if (answers[i] == "")
+            // Send the entire chat to OpenAI to get the next message
+            var questionResult = await api.Chat.CreateChatCompletionAsync(new ChatRequest()
             {
-                for (int j = i; j < answers.Length - 1; j++)
+                Model = Model.ChatGPTTurbo,
+                Temperature = 0.1,
+                MaxTokens = 50,
+                Messages = messages
+            });
+
+            // Determine and display the question
+            ChatMessage questionMessage = new ChatMessage();
+            questionMessage.Role = questionResult.Choices[0].Message.Role;
+            questionMessage.Content = questionResult.Choices[0].Message.Content;
+            messages.Add(questionMessage);
+            textField.text = questionMessage.Content;
+            Debug.Log(questionMessage.Content);
+
+
+            okButton.onClick.AddListener(() => RespondQuestion());
+
+
+
+            /*
+            // Get the response message
+            ChatMessage responseMessage = new ChatMessage();
+            responseMessage.Role = chatResult.Choices[0].Message.Role;
+            responseMessage.Content = chatResult.Choices[0].Message.Content;
+            Debug.Log(string.Format("{0}: {1}", responseMessage.Role, responseMessage.Content));
+            String[] promptAndAnswers = responseMessage.Content.Split("|");
+            String[] answers = promptAndAnswers[1].Split("\n");
+            for (int i = 0; i < answers.Length; i++)
+            {
+                if (answers[i] == "")
                 {
-                    answers[j] = answers[j + 1];
+                    for (int j = i; j < answers.Length - 1; j++)
+                    {
+                        answers[j] = answers[j + 1];
+                    }
                 }
             }
-        }
-        textField.text = promptAndAnswers[0];
-        Atext.text = answers[0];
-        
-        
-        
-        
-        /*Btext.text = answers[1];
-        Ctext.text = answers[2];
-        Dtext.text = answers[3];
-        String answer = answers[4];
-        char answerLetter = answer[0];
-        Debug.Log(answerLetter);
-        // Add the response to the list of messages
-        messages.Add(responseMessage);
+            textField.text = promptAndAnswers[0];
+            Atext.text = answers[0];
 
-        // Wait for user input
-        switch (answerLetter)
+
+
+
+            /*Btext.text = answers[1];
+            Ctext.text = answers[2];
+            Dtext.text = answers[3];
+            String answer = answers[4];
+            char answerLetter = answer[0];
+            Debug.Log(answerLetter);
+            // Add the response to the list of messages
+            messages.Add(responseMessage);
+
+            // Wait for user input
+            switch (answerLetter)
+            {
+                case 'A':
+                    A.onClick.AddListener(() => ButtonPressed(true));
+                    B.onClick.AddListener(() => ButtonPressed(false));
+                    C.onClick.AddListener(() => ButtonPressed(false));
+                    D.onClick.AddListener(() => ButtonPressed(false));
+                    break;
+                case 'B':
+                    A.onClick.AddListener(() => ButtonPressed(false));
+                    B.onClick.AddListener(() => ButtonPressed(true));
+                    C.onClick.AddListener(() => ButtonPressed(false));
+                    D.onClick.AddListener(() => ButtonPressed(false));
+                    break;
+                case 'C':
+                    A.onClick.AddListener(() => ButtonPressed(false));
+                    B.onClick.AddListener(() => ButtonPressed(false));
+                    C.onClick.AddListener(() => ButtonPressed(true));
+                    D.onClick.AddListener(() => ButtonPressed(false));
+                    break;
+                case 'D':
+                    A.onClick.AddListener(() => ButtonPressed(false));
+                    B.onClick.AddListener(() => ButtonPressed(false));
+                    C.onClick.AddListener(() => ButtonPressed(false));
+                    D.onClick.AddListener(() => ButtonPressed(true));
+                    break;
+                default:
+                    print("Question Malfunction... Loading new question");
+                    break;
+            }*/
+        }
+        else
         {
-            case 'A':
-                A.onClick.AddListener(() => ButtonPressed(true));
-                B.onClick.AddListener(() => ButtonPressed(false));
-                C.onClick.AddListener(() => ButtonPressed(false));
-                D.onClick.AddListener(() => ButtonPressed(false));
-                break;
-            case 'B':
-                A.onClick.AddListener(() => ButtonPressed(false));
-                B.onClick.AddListener(() => ButtonPressed(true));
-                C.onClick.AddListener(() => ButtonPressed(false));
-                D.onClick.AddListener(() => ButtonPressed(false));
-                break;
-            case 'C':
-                A.onClick.AddListener(() => ButtonPressed(false));
-                B.onClick.AddListener(() => ButtonPressed(false));
-                C.onClick.AddListener(() => ButtonPressed(true));
-                D.onClick.AddListener(() => ButtonPressed(false));
-                break;
-            case 'D':
-                A.onClick.AddListener(() => ButtonPressed(false));
-                B.onClick.AddListener(() => ButtonPressed(false));
-                C.onClick.AddListener(() => ButtonPressed(false));
-                D.onClick.AddListener(() => ButtonPressed(true));
-                break;
-            default:
-                print("Question Malfunction... Loading new question");
-                break;
-        }*/
+            textField.text = "You must wait for the question cooldown before generating a new question!";
+        }
+
     }
 
     private async void RespondQuestion()
