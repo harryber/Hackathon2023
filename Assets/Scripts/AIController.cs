@@ -30,6 +30,8 @@ public class AIController : MonoBehaviour
     public String ansText;
     public String wrongAnsText;
     public playerMovement player;
+    public Rigidbody clone;
+    private int enemyCount = 0;
 
     //public String questionSubject = "Science";
     //public String age = "15";
@@ -215,8 +217,17 @@ public class AIController : MonoBehaviour
                     player.AdjustAmmo(player.ammoAmount);
                     break;
                 case "Physics":
-                    player.AdjustAmmo(-1);
-                    // remove player.damage number of enemies
+                    if (enemyCount > 0)
+                    {
+                        player.AdjustAmmo(-1);
+                        enemyCount -= 1;
+                        Enemy e = FindObjectOfType<Enemy>();
+                        GameObject eny = e.gameObject;
+                        Destroy(eny);
+                        // remove player.damage number of enemies
+
+                    }
+
                     break;
                 case "Computer Science":
                     player.healAmount += 50;
@@ -235,9 +246,9 @@ public class AIController : MonoBehaviour
             audioManager.Play("sad");
 
             // spawn an enemy at a random coordinate
-            Rigidbody clone;
+            
             clone = Instantiate(enemy, enemySpawnPoint.position, enemySpawnPoint.rotation);
-
+            enemyCount += 1;
 
             rightWrongField.text = "Incorrect.";
         }

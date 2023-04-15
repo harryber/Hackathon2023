@@ -1548,11 +1548,12 @@ MonoBehaviour:
   enemy: {fileID: 5930835461079852874, guid: 0191a0f6ff2531647970fdc3620291ff, type: 3}
   enemySpawnPoint: {fileID: 209008900}
   t: {fileID: 939613661}
-  timerTime: 60
+  timerTime: 20
   chatText: 
   ansText: 
   wrongAnsText: 
   player: {fileID: 1252249361}
+  clone: {fileID: 0}
   difficulty: 
 --- !u!4 &939613660
 Transform:
