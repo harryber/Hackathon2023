@@ -8,8 +8,8 @@ public class Timer : MonoBehaviour
     public TMP_Text timerText; // reference to a text component to display the countdown
     public bool start = false;
     public bool ready = true;
-
-    private float timeRemaining; // the amount of time remaining in the countdown
+    public bool text;
+    public float timeRemaining; // the amount of time remaining in the countdown
 
     void Start()
     {
@@ -37,13 +37,21 @@ public class Timer : MonoBehaviour
             // countdown is complete, do something here (e.g. trigger an event or load a new scene)
             ready = true;
             start = false;
-            timerText.text = "Ready";
+            if (text)
+            {
+                timerText.text = "Ready";
+            }
+            
         }
         else
         {
             ready = false;
             // update the text component to display the remaining time rounded to 2 decimal places
-            timerText.text = Mathf.RoundToInt(timeRemaining).ToString();
+            if (text)
+            {
+                timerText.text = Mathf.RoundToInt(timeRemaining).ToString();
+            }
+            
         }
     }
 }

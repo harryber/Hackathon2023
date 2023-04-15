@@ -10,7 +10,8 @@ using OpenAI_API.Models;
 
 public class AIController : MonoBehaviour
 {
-    
+    public GameObject manager;
+    private AudioManager audioManager;
     public GameObject promptCanvas;
     public TMP_Text textField;
     public TMP_Text rightWrongField;
@@ -18,18 +19,17 @@ public class AIController : MonoBehaviour
     public Button okButton;
     public Button A;
     public TMP_Text Atext;
-    public Button B;
-    public TMP_Text Btext;
-    public Button C;
-    public TMP_Text Ctext;
-    public Button D;
-    public TMP_Text Dtext;
+
+    public Rigidbody enemy;
+    public Transform enemySpawnPoint;
+
 
     public Timer t;
     public float timerTime = 60;
     public String chatText;
     public String ansText;
     public String wrongAnsText;
+    public playerMovement player;
 
     //public String questionSubject = "Science";
     //public String age = "15";
@@ -45,25 +45,33 @@ public class AIController : MonoBehaviour
     void Start()
     {
         // API KEY GOES HERE
-        api = new OpenAIAPI("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");
+        api = new OpenAIAPI("");
         messages = new List<ChatMessage>
         {
             new ChatMessage(ChatMessageRole.System, "You are about to start generating educational questions for users to solve.")
         };
+
+        audioManager = manager.GetComponent<AudioManager>();
 
         //A.onClick.AddListener(() => StartQuestion());
     }
 
     
     void RemoveCanvasElements()
-    {
+    { 
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        player.restrictMovement = false;
         promptCanvas.SetActive(false);
+
     }
 
     public async void StartQuestion(String questionSubject, String age)
     {
+        
         if (t.ready)
         {
+
             t.SetTimeRemaining(timerTime); 
             t.start = true;
             String initialQuestion = string.Format("Generate a different random {0} question that a {1} year old would know", questionSubject, age);
@@ -93,7 +101,7 @@ public class AIController : MonoBehaviour
             Debug.Log(questionMessage.Content);
 
 
-            okButton.onClick.AddListener(() => RespondQuestion());
+            okButton.onClick.AddListener(() => RespondQuestion(questionSubject));
 
 
 
@@ -169,7 +177,7 @@ public class AIController : MonoBehaviour
 
     }
 
-    private async void RespondQuestion()
+    private async void RespondQuestion(String type)
     {
         ChatMessage responseMessage = new ChatMessage();
         responseMessage.Role = ChatMessageRole.User;
@@ -195,12 +203,44 @@ public class AIController : MonoBehaviour
 
         if (correctMessage.Content == "Yes.")
         {
+
+            audioManager.Play("yay");
+
+            switch (type)
+            {
+                case "Biology":
+                    player.AdjustHealth(player.healAmount);
+                    break;
+                case "Geology":
+                    player.AdjustAmmo(player.ammoAmount);
+                    break;
+                case "Physics":
+                    // remove player.damage number of enemies
+                    break;
+                case "Computer Science":
+                    player.healAmount += 50;
+                    player.ammoAmount += 0.3f;
+                    //player.damage += 1;       I commented this out because player doesn't have a "damage" attribute
+                    break;
+                default:
+                    print("Question Malfunction... Loading new question");
+                    break;
+            }
             rightWrongField.text = "Good Job!";
         }
         else
         {
+
+            audioManager.Play("sad");
+
+            // spawn an enemy at a random coordinate
+            Rigidbody clone;
+            clone = Instantiate(enemy, enemySpawnPoint.position, enemySpawnPoint.rotation);
+
+
             rightWrongField.text = "Incorrect.";
         }
+        player.restrictMovement = false;
         RemoveCanvasElements();
     }
 
