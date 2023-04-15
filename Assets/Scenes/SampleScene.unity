@@ -3482,6 +3482,18 @@ MonoBehaviour:
     pitch: 1
     source: {fileID: 0}
     loop: 0
+  - name: ow
+    clip: {fileID: 8300000, guid: 5bdb64645b6558848891b50b2f3a6bf8, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: oof
+    clip: {fileID: 8300000, guid: 00c6ee62996643549b3f6b5a328ec042, type: 3}
+    volume: 1
+    pitch: 1
+    source: {fileID: 0}
+    loop: 0
 --- !u!4 &1719053319
 Transform:
   m_ObjectHideFlags: 0
