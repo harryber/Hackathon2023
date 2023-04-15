@@ -18,12 +18,10 @@ public class AIController : MonoBehaviour
     public Button okButton;
     public Button A;
     public TMP_Text Atext;
-    public Button B;
-    public TMP_Text Btext;
-    public Button C;
-    public TMP_Text Ctext;
-    public Button D;
-    public TMP_Text Dtext;
+
+    public Rigidbody enemy;
+    public Transform enemySpawnPoint;
+
 
     public Timer t;
     public float timerTime = 60;
@@ -46,7 +44,7 @@ public class AIController : MonoBehaviour
     void Start()
     {
         // API KEY GOES HERE
-        api = new OpenAIAPI("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");
+        api = new OpenAIAPI("");
         messages = new List<ChatMessage>
         {
             new ChatMessage(ChatMessageRole.System, "You are about to start generating educational questions for users to solve.")
@@ -57,14 +55,20 @@ public class AIController : MonoBehaviour
 
     
     void RemoveCanvasElements()
-    {
+    { 
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        player.restrictMovement = false;
         promptCanvas.SetActive(false);
+
     }
 
     public async void StartQuestion(String questionSubject, String age)
     {
+        
         if (t.ready)
         {
+
             t.SetTimeRemaining(timerTime); 
             t.start = true;
             String initialQuestion = string.Format("Generate a different random {0} question that a {1} year old would know", questionSubject, age);
@@ -221,8 +225,13 @@ public class AIController : MonoBehaviour
         else
         {
             // spawn an enemy at a random coordinate
+            Rigidbody clone;
+            clone = Instantiate(enemy, enemySpawnPoint.position, enemySpawnPoint.rotation);
+
+
             rightWrongField.text = "Incorrect.";
         }
+        player.restrictMovement = false;
         RemoveCanvasElements();
     }
 
