@@ -10,7 +10,8 @@ using OpenAI_API.Models;
 
 public class AIController : MonoBehaviour
 {
-    public Canvas canvas;
+    
+    public GameObject promptCanvas;
     public TMP_Text textField;
     public TMP_Text rightWrongField;
     public TMP_InputField inputField;
@@ -23,6 +24,7 @@ public class AIController : MonoBehaviour
     public TMP_Text Ctext;
     public Button D;
     public TMP_Text Dtext;
+
     public Timer t;
     public float timerTime = 60;
     public String chatText;
@@ -43,17 +45,20 @@ public class AIController : MonoBehaviour
     void Start()
     {
         // API KEY GOES HERE
-        api = new OpenAIAPI("");
+        api = new OpenAIAPI("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");
         messages = new List<ChatMessage>
         {
             new ChatMessage(ChatMessageRole.System, "You are about to start generating educational questions for users to solve.")
         };
 
         //A.onClick.AddListener(() => StartQuestion());
-
     }
 
     
+    void RemoveCanvasElements()
+    {
+        promptCanvas.SetActive(false);
+    }
 
     public async void StartQuestion(String questionSubject, String age)
     {
@@ -196,6 +201,7 @@ public class AIController : MonoBehaviour
         {
             rightWrongField.text = "Incorrect.";
         }
+        RemoveCanvasElements();
     }
 
     private void ButtonPressed(bool correct)
