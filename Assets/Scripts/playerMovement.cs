@@ -6,6 +6,7 @@ public class playerMovement : MonoBehaviour
     public float jumpForce = 5.0f;
     public float lookSensitivity = 2.0f;
     public Canvas canvas;
+    public GameObject promptCanvas;
     public AIController ai;
 
     private bool onGround;
@@ -63,7 +64,7 @@ public class playerMovement : MonoBehaviour
         if (collision.gameObject.name == "MedCollider")
         {
             //If the GameObject's name matches the one you suggest, output this message in the console
-            canvas.gameObject.SetActive(true);
+            promptCanvas.SetActive(true);
             ai.StartQuestion("Biology", "15");
         }
     }
