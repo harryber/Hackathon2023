@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -123,90 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &103802584
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 103802585}
-  - component: {fileID: 103802587}
-  - component: {fileID: 103802586}
-  m_Layer: 0
-  m_Name: Camera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &103802585
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 103802584}
-  m_LocalRotation: {x: 0.7852895, y: 0.000000017250446, z: 0.0000000033470782, w: 0.61912876}
-  m_LocalPosition: {x: -0.3, y: 34.3, z: 61.1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1999826718}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 103.494995, y: 0, z: 0}
---- !u!81 &103802586
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 103802584}
-  m_Enabled: 1
---- !u!20 &103802587
-Camera:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 103802584}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_projectionMatrixMode: 1
-  m_GateFitMode: 2
-  m_FOVAxisMode: 0
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
 --- !u!1 &138838725
 GameObject:
   m_ObjectHideFlags: 0
@@ -2632,7 +2548,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1252249360}
   m_LocalRotation: {x: -0, y: 0.20893998, z: -0, w: 0.97792846}
-  m_LocalPosition: {x: -4.7929, y: 1.26, z: -9.5405}
+  m_LocalPosition: {x: -4.7929, y: 2.11, z: -9.5405}
   m_LocalScale: {x: 0.17835769, y: 0.16180609, z: 0.23325618}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4192,11 +4108,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d08d86c73f211f440acec195da4fc06f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.7
+      value: -4.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d08d86c73f211f440acec195da4fc06f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.06
+      value: -4.31
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d08d86c73f211f440acec195da4fc06f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4247,10 +4163,7 @@ PrefabInstance:
       value: Bad Guy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: d08d86c73f211f440acec195da4fc06f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 103802585}
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: d08d86c73f211f440acec195da4fc06f, type: 3}
 --- !u!1 &1854371956
 GameObject:
