@@ -2,22 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// This script was made with help from this article: https://code.tutsplus.com/tutorials/unity3d-third-person-cameras--mobile-11230
+// This script was made with help from this article: https://sharpcoderblog.com/blog/third-person-camera-in-unity-3d
+
 public class cameraScript : MonoBehaviour
 {
+    public float turnSpeed = 4.0f;
     public GameObject target;
-    public float damping = 1;
-    Vector3 offset;
+    private float targetDistance;
+    public float minTurnAngle = -90.0f;
+    public float maxTurnAngle = 0.0f;
+    public float minTurnAngleY = -90.0f;
+    public float maxTurnAngleY = 0.0f;
+    private float rotX;
+    private float rotY;
     void Start()
     {
-        offset = transform.position - target.transform.position;
+        targetDistance = Vector3.Distance(transform.position, target.transform.position);
     }
-
-    void LateUpdate()
+    void Update()
     {
-        Vector3 desiredPosition = target.transform.position + offset;
-        Vector3 position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * damping);
-        transform.position = position;
-        transform.LookAt(target.transform.position);
+        // get the mouse inputs
+        rotY = Input.GetAxis("Mouse X") * turnSpeed;
+        rotX += Input.GetAxis("Mouse Y") * turnSpeed;
+        // clamp the vertical rotation
+        rotX = Mathf.Clamp(rotX, minTurnAngle, maxTurnAngle);
+        rotY = Mathf.Clamp(rotY, minTurnAngleY, maxTurnAngleY);
+        // rotate the camera
+        //transform.eulerAngles = new Vector3(-rotX, transform.eulerAngles.y + y, 0);
+        // move the camera position
+        transform.position = target.transform.position - (transform.forward * targetDistance);
     }
 }
