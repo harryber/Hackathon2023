@@ -16,8 +16,8 @@ public class thirdPersonCamera: MonoBehaviour
         Vector3 rot = transform.localRotation.eulerAngles;
         rotY = rot.y;
         rotX = rot.x;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.None;
+        //Cursor.visible = false;
     }
 
     void Update()
