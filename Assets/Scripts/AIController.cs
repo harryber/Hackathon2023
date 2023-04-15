@@ -45,7 +45,7 @@ public class AIController : MonoBehaviour
     void Start()
     {
         // API KEY GOES HERE
-        api = new OpenAIAPI("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");
+        api = new OpenAIAPI("");
         messages = new List<ChatMessage>
         {
             new ChatMessage(ChatMessageRole.System, "You are about to start generating educational questions for users to solve.")

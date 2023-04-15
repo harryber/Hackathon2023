@@ -3,6 +3,7 @@ using UnityEngine;
 public class thirdPersonCamera: MonoBehaviour
 {
     public Transform playerTransform;
+    public AIController ai;
     public float cameraMoveSpeed = 120.0f;
     public float clampAngle = 80.0f;
     public float clampMinY = 90f;
@@ -18,8 +19,8 @@ public class thirdPersonCamera: MonoBehaviour
         Vector3 rot = transform.localRotation.eulerAngles;
         rotY = rot.y;
         rotX = rot.x;
-        //Cursor.lockState = CursorLockMode.None;
-        //Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
@@ -35,6 +36,6 @@ public class thirdPersonCamera: MonoBehaviour
 
         Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
         transform.position = playerTransform.position - (localRotation * Vector3.forward * cameraDistance);
-        transform.rotation = localRotation;
+        if (ai.t.ready) transform.rotation = localRotation;
     }
 }
