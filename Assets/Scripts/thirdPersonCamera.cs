@@ -32,7 +32,7 @@ public class thirdPersonCamera: MonoBehaviour
         rotX -= mouseY * inputSensitivity * Time.deltaTime;
 
         rotX = Mathf.Clamp(rotX, 0f, clampAngle);
-        rotY = Mathf.Clamp(rotY, clampMinY, clampMaxY);
+        //rotY = Mathf.Clamp(rotY, clampMinY, clampMaxY);
 
         Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0.0f);
         transform.position = playerTransform.position - (localRotation * Vector3.forward * cameraDistance);
