@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using TMPro;
 
 public class playerMovement : MonoBehaviour
 {
@@ -7,7 +8,7 @@ public class playerMovement : MonoBehaviour
     public float healAmount = 100.0f;
     public float ammo = 0.0f;
     public float ammoAmount = 1.0f;
-
+    public float damage = 1.0f;
     public float luck = 0.0f;
     public float moveSpeed = 5.0f;
     public float jumpForce = 5.0f;
@@ -15,7 +16,8 @@ public class playerMovement : MonoBehaviour
     public Canvas canvas;
     public GameObject promptCanvas;
     public AIController ai;
-
+    public TMP_Text healthText;
+    public bool restrictMovement = false;
 
     private bool onGround;
     private Rigidbody rb;
@@ -26,9 +28,10 @@ public class playerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         cameraScript = FindObjectOfType<thirdPersonCamera>();
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
-        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        
+        healthText.text = string.Format("{0} / 1000", health);
     }
 
     void Update()
@@ -50,7 +53,11 @@ public class playerMovement : MonoBehaviour
         moveDir = transform.TransformDirection(moveDir);
         moveDir *= moveSpeed;
 
-        rb.velocity = new Vector3(moveDir.x, rb.velocity.y, moveDir.z);
+        if (!restrictMovement)
+        {
+            rb.velocity = new Vector3(moveDir.x, rb.velocity.y, moveDir.z);
+        }
+        
 
         // Checking on ground
         // (This technically allows the player to double jump when they're at the vertex, but the odds of this are very low.)
@@ -70,6 +77,7 @@ public class playerMovement : MonoBehaviour
     public void AdjustHealth(float amount)
     {
         health += amount;
+        healthText.text = string.Format("{0} / 1000", health);
     }
 
     public void AdjustAmmo(float amount)
@@ -78,47 +86,68 @@ public class playerMovement : MonoBehaviour
         if (ammo <= 0) ammo = 0;
     }
 
+
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name == "MedCollider")
+        if (ai.t.ready)
         {
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            promptCanvas.SetActive(true);
-            ai.StartQuestion("Biology", "15");
-        }
-
-        else if (collision.gameObject.name == "LibCollider")
-        {
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            promptCanvas.SetActive(true);
-            ai.StartQuestion("History", "15");
-        }
-
-        else if (collision.gameObject.name == "MineCollider")
-        {
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            promptCanvas.SetActive(true);
-            ai.StartQuestion("Geology", "15");
-        }
-
-        else if (collision.gameObject.name == "DefensesCollider")
-        {
-            
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            if (ammo > 0)
+            if (collision.gameObject.name == "MedCollider")
             {
+                //If the GameObject's name matches the one you suggest, output this message in the console
+
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                restrictMovement = true;
                 promptCanvas.SetActive(true);
-                ai.StartQuestion("Physics", "15");
+                ai.StartQuestion("Biology", "15");
             }
 
-        }
+            else if (collision.gameObject.name == "LibraryCollider")
+            {
+                //If the GameObject's name matches the one you suggest, output this message in the console
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                restrictMovement = true;
+                promptCanvas.SetActive(true);
+                ai.StartQuestion("History", "15");
+            }
 
-        else if (collision.gameObject.name == "TechCollider")
-        {
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            promptCanvas.SetActive(true);
-            ai.StartQuestion("Computer Science", "15");
-        }
+            else if (collision.gameObject.name == "MinesCollider")
+            {
+                //If the GameObject's name matches the one you suggest, output this message in the console
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                restrictMovement = true;
+                promptCanvas.SetActive(true);
+                ai.StartQuestion("Geology", "15");
+            }
 
+            else if (collision.gameObject.name == "DefensesCollider")
+            {
+
+                //If the GameObject's name matches the one you suggest, output this message in the console
+
+                if (ammo > 0)
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+                    restrictMovement = true;
+                    promptCanvas.SetActive(true);
+                    ai.StartQuestion("Physics", "15");
+                }
+
+            }
+
+            else if (collision.gameObject.name == "TechCollider")
+            {
+                //If the GameObject's name matches the one you suggest, output this message in the console
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                restrictMovement = true;
+                promptCanvas.SetActive(true);
+                ai.StartQuestion("Computer Science", "15");
+            }
+        }
     }
 }
