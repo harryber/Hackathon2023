@@ -90,61 +90,64 @@ public class playerMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name == "MedCollider")
+        if (ai.t.ready)
         {
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            restrictMovement = true;
-            promptCanvas.SetActive(true);
-            ai.StartQuestion("Biology", "15");
-        }
-
-        else if (collision.gameObject.name == "LibraryCollider")
-        {
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            restrictMovement = true;
-            promptCanvas.SetActive(true);
-            ai.StartQuestion("History", "15");
-        }
-
-        else if (collision.gameObject.name == "MinesCollider")
-        {
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            restrictMovement = true;
-            promptCanvas.SetActive(true);
-            ai.StartQuestion("Geology", "15");
-        }
-
-        else if (collision.gameObject.name == "DefensesCollider")
-        {
-            
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            
-            if (ammo > 0)
+            if (collision.gameObject.name == "MedCollider")
             {
+                //If the GameObject's name matches the one you suggest, output this message in the console
+
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 restrictMovement = true;
                 promptCanvas.SetActive(true);
-                ai.StartQuestion("Physics", "15");
+                ai.StartQuestion("Biology", "15");
             }
 
-        }
+            else if (collision.gameObject.name == "LibraryCollider")
+            {
+                //If the GameObject's name matches the one you suggest, output this message in the console
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                restrictMovement = true;
+                promptCanvas.SetActive(true);
+                ai.StartQuestion("History", "15");
+            }
 
-        else if (collision.gameObject.name == "TechCollider")
-        {
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            restrictMovement = true;
-            promptCanvas.SetActive(true);
-            ai.StartQuestion("Computer Science", "15");
-        }
+            else if (collision.gameObject.name == "MinesCollider")
+            {
+                //If the GameObject's name matches the one you suggest, output this message in the console
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                restrictMovement = true;
+                promptCanvas.SetActive(true);
+                ai.StartQuestion("Geology", "15");
+            }
 
+            else if (collision.gameObject.name == "DefensesCollider")
+            {
+
+                //If the GameObject's name matches the one you suggest, output this message in the console
+
+                if (ammo > 0)
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+                    restrictMovement = true;
+                    promptCanvas.SetActive(true);
+                    ai.StartQuestion("Physics", "15");
+                }
+
+            }
+
+            else if (collision.gameObject.name == "TechCollider")
+            {
+                //If the GameObject's name matches the one you suggest, output this message in the console
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                restrictMovement = true;
+                promptCanvas.SetActive(true);
+                ai.StartQuestion("Computer Science", "15");
+            }
+        }
     }
 }
