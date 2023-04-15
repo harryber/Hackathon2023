@@ -2,12 +2,15 @@
 
 public class playerMovement : MonoBehaviour
 {
+    public float health = 1000.0f;
     public float moveSpeed = 5.0f;
     public float jumpForce = 5.0f;
     public float lookSensitivity = 2.0f;
     public Canvas canvas;
     public GameObject promptCanvas;
     public AIController ai;
+
+
 
     private bool onGround;
     private Rigidbody rb;
@@ -67,5 +70,34 @@ public class playerMovement : MonoBehaviour
             promptCanvas.SetActive(true);
             ai.StartQuestion("Biology", "15");
         }
+
+        else if (collision.gameObject.name == "LibCollider")
+        {
+            //If the GameObject's name matches the one you suggest, output this message in the console
+            promptCanvas.SetActive(true);
+            ai.StartQuestion("History", "15");
+        }
+
+        else if (collision.gameObject.name == "MineCollider")
+        {
+            //If the GameObject's name matches the one you suggest, output this message in the console
+            promptCanvas.SetActive(true);
+            ai.StartQuestion("Geology", "15");
+        }
+
+        else if (collision.gameObject.name == "DefensesCollider")
+        {
+            //If the GameObject's name matches the one you suggest, output this message in the console
+            promptCanvas.SetActive(true);
+            ai.StartQuestion("Physics", "15");
+        }
+
+        else if (collision.gameObject.name == "TechCollider")
+        {
+            //If the GameObject's name matches the one you suggest, output this message in the console
+            promptCanvas.SetActive(true);
+            ai.StartQuestion("Computer Science", "15");
+        }
+
     }
 }

@@ -199,6 +199,7 @@ public class AIController : MonoBehaviour
         }
         else
         {
+            // spawn an enemy at a random coordinate
             rightWrongField.text = "Incorrect.";
         }
         RemoveCanvasElements();
