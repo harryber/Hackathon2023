@@ -131,7 +131,7 @@ public class playerMovement : MonoBehaviour
 
                 //If the GameObject's name matches the one you suggest, output this message in the console
 
-                if (ammo > 0 && ai.enemyCount > 0)
+                if (ammo > 0)
                 {
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;

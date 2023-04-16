@@ -31,7 +31,7 @@ public class AIController : MonoBehaviour
     public String wrongAnsText;
     public playerMovement player;
     public Rigidbody clone;
-    public int enemyCount = 0;
+    private int enemyCount = 0;
 
     //public String questionSubject = "Science";
     //public String age = "15";
@@ -73,9 +73,8 @@ public class AIController : MonoBehaviour
         
         if (t.ready)
         {
-            
-            Debug.Log("Screw you");
-            t.SetTimeRemaining(timerTime);
+
+            t.SetTimeRemaining(timerTime); 
             t.start = true;
             String initialQuestion = string.Format("Generate a different random {0} question that a {1} year old would know", questionSubject, age);
 
@@ -172,9 +171,6 @@ public class AIController : MonoBehaviour
                     print("Question Malfunction... Loading new question");
                     break;
             }*/
-            
-
-
         }
         else
         {
@@ -221,15 +217,16 @@ public class AIController : MonoBehaviour
                     player.AdjustAmmo(player.ammoAmount);
                     break;
                 case "Physics":
-                    
-                    player.AdjustAmmo(-1);
-                    enemyCount -= 1;
-                    Enemy e = FindObjectOfType<Enemy>();
-                    GameObject eny = e.gameObject;
-                    Destroy(eny);
-                    // remove player.damage number of enemies
+                    if (enemyCount > 0)
+                    {
+                        player.AdjustAmmo(-1);
+                        enemyCount -= 1;
+                        Enemy e = FindObjectOfType<Enemy>();
+                        GameObject eny = e.gameObject;
+                        Destroy(eny);
+                        // remove player.damage number of enemies
 
-                    
+                    }
 
                     break;
                 case "Computer Science":
@@ -255,7 +252,6 @@ public class AIController : MonoBehaviour
 
             rightWrongField.text = "Incorrect.";
         }
-
         player.restrictMovement = false;
         RemoveCanvasElements();
     }
