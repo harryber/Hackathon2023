@@ -17,6 +17,7 @@ public class playerMovement : MonoBehaviour
     public GameObject promptCanvas;
     public AIController ai;
     public TMP_Text healthText;
+    public TMP_Text ammoText;
     public bool restrictMovement = false;
 
     private bool onGround;
@@ -32,6 +33,7 @@ public class playerMovement : MonoBehaviour
         Cursor.visible = false;
         
         healthText.text = string.Format("{0} / 1000", health);
+        ammoText.text = string.Format("Ammo Count: {0}", ammo);
     }
 
     void Update()
@@ -83,6 +85,7 @@ public class playerMovement : MonoBehaviour
     public void AdjustAmmo(float amount)
     {
         ammo += amount;
+        ammoText.text = string.Format("Ammo Count: {0}", ammo);
         if (ammo <= 0) ammo = 0;
     }
 
@@ -128,7 +131,7 @@ public class playerMovement : MonoBehaviour
 
                 //If the GameObject's name matches the one you suggest, output this message in the console
 
-                if (ammo > 0)
+                if (ammo > 0 && ai.enemyCount > 0)
                 {
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
